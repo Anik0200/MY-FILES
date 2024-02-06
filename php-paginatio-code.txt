@@ -1,0 +1,54 @@
+<?php
+//first part
+
+include "config.php";
+
+$limit = 3;
+
+if (isset($_GET['page'])) {
+
+    $page = $_GET['page'];
+} else {
+
+    $page = 1;
+}
+
+$offset = ($page - 1) * $limit;
+
+$sql = "SELECT table cloumn FROM table name ORDER BY cloumn name DESC LIMIT {$offset}, {$limit}";
+
+
+// --------------------------------------------------------
+
+//second part
+
+$sqlP = "SELECT * FROM user";
+$resP = mysqli_query($conn, $sqlP) or die("QUERY FAILED");
+
+if (mysqli_num_rows($resP) > 0) {
+
+    $total_rec = mysqli_num_rows($resP);
+    $total_page = ceil($total_rec / $limit);
+}
+
+echo '<ul class="pagination admin-pagination">';
+
+if ($page > 1) {
+
+    echo '<li><a href="users.php?page= ' . ($page - 1) . ' ">PREV</a></li>';
+}
+
+for ($i = 1; $i <= $total_page; $i++) {
+    if ($i == $page) {
+        $active = "active";
+    } else {
+        $active = "deactive";
+    }
+    echo '<li class = ' . $active . '><a href="users.php?page= ' . $i . ' "> ' . $i . ' </a></li>';
+}
+if ($total_page > $page) {
+
+    echo '<li><a href="users.php?page= ' . ($page + 1) . ' ">NEXT</a></li>';
+}
+
+echo '</ul>';

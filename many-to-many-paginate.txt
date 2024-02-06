@@ -1,0 +1,17 @@
+public function Products()
+    {
+        return $this->belongsToMany(Product::class)->withPivot('product_id');
+    }
+
+
+public function categoryPro($id)
+    {
+        $categories = Category::with('subCategories:id,name', 'products:id,title')->where('id', $id)->get();
+
+        foreach ($categories as $cat) {
+            $products = $cat->Products()->paginate(2);
+        }
+        return view('frontend.categoryProduct', compact('products', 'categories'));
+
+    }
+

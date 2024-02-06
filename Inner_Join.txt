@@ -1,0 +1,3 @@
+SELECT *, category_table.cname, user_table.id, user_table.name FROM post_table INNER JOIN category_table ON post_table.catId = category_table.cid
+        
+        INNER JOIN user_table ON post_table.userid = user_table.id

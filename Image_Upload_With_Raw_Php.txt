@@ -1,0 +1,50 @@
+<?php
+        $getPost = "SELECT * FROM post_table WHERE postid='$id'";
+        $getRes = $this->db->select($getPost);
+        $oldImg =  mysqli_fetch_assoc($getRes);
+
+        if ($file['imgOne']['tmp_name'] == !0) {
+
+            $permit    = ['jpg', 'jpeg', 'png'];
+            $file_name = $file['imgOne']['name'];
+            $file_size = $file['imgOne']['size'];
+            $fileTemp = $file['imgOne']['tmp_name'];
+
+            $div          = explode('.', $file_name);
+            $file_ext     = strtolower(end($div));
+            $uni_image    = substr(md5(time()), 0, 10) . '.' . $file_ext;
+            $uploadImage  = "../upload/" . $uni_image;
+
+            $up1 =   move_uploaded_file($fileTemp, $uploadImage);
+
+            if ($up1) {
+                unlink('../upload/' . $oldImg['imgOne']);
+            }
+        } else {
+
+            $uni_image    = $oldImg['imgOne'];
+        }
+        // IMAGE ONE END____
+
+        if ($file['imgTwo']['tmp_name'] == !0) {
+
+            $permitTwo   = ['jpg', 'jpeg', 'png'];
+            $fileNameTwo = $file['imgTwo']['name'];
+            $fileSizeTwo = $file['imgTwo']['size'];
+            $fileTempTwo = $file['imgTwo']['tmp_name'];
+
+            $divTwo       = explode(',', $fileNameTwo);
+            $fileExtTwo   = strtolower(end($divTwo));
+            $uniImgTwo    = substr(md5(rand() . time()), 0, 10) . '.' . $fileExtTwo;
+            $uploadimgtwo = "../upload/" . $uniImgTwo;
+
+            $up2 =  move_uploaded_file($fileTempTwo, $uploadimgtwo);
+
+            if ($up2) {
+                unlink('../upload/' . $oldImg['imgTwo']);
+            }
+        } else {
+
+            $uniImgTwo    = $oldImg['imgTwo'];
+        }
+        // IMAGE TWO END____
